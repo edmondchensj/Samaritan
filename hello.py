@@ -1,7 +1,9 @@
 import os
+import boto3
 from flask import Flask, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
+BUCKET_NAME = 'aws-hackdays-samaritan-uploads'
 UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = set(['wav'])
 
@@ -35,7 +37,14 @@ def upload_file():
       return redirect(request.url)
     if file and allowed_file(file.filename):
       filename = secure_filename(file.filename)
-      file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+      full_filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+      file.save(full_filename)
+
+      s3 = boto3.resource('s3')
+      data = open(full_filename, 'rb')
+      s3.Bucket(BUCKET_NAME).put_object(Key=filename, Body=data)
+
       return f'File {file.filename} uploaded!'
   return '''
   <!doctype html>
@@ -46,5 +55,4 @@ def upload_file():
        <input type=submit value=Upload>
   </form>
   '''
-
 
