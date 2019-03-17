@@ -90,7 +90,18 @@ def transcribe_file():
     OutputBucketName=BUCKET_NAME
   )
 
+  return f'File {filename} transcription in progress!'
 
+
+@app.route('/transcribe/progress', methods=['GET'])
+def transcribe_progress():
+  filename = request.args.get('filename')
+  print(f'Checking transcription progress for {filename} ..')
+  job_name = f'transcribe_job_{filename}'
+
+  transcribe = boto3.client('transcribe', region_name='ap-southeast-1')
+  status = transcribe.get_transcription_job(TranscriptionJobName=job_name)
+  return status['TranscriptionJob']['TranscriptionJobStatus']
 
 
 
