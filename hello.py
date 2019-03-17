@@ -80,7 +80,7 @@ def transcribe_file():
   filename = request.args.get('filename')
   print(f'Transcribing {filename} ..')
 
-  job_name = f'transcribe_job_{filename.rsplit('.', 1)[0]}'
+  job_name = f"transcribe_job_{filename.rsplit('.', 1)[0]}"
   job_uri = f'https://s3-ap-southeast-1.amazonaws.com/{BUCKET_NAME}/{filename}'
 
   transcribe = boto3.client('transcribe', region_name='ap-southeast-1')
@@ -99,7 +99,7 @@ def transcribe_file():
 def transcribe_progress():
   filename = request.args.get('filename')
   print(f'Checking transcription progress for {filename} ..')
-  job_name = f'transcribe_job_{filename.rsplit('.', 1)[0]}'
+  job_name = f"transcribe_job_{filename.rsplit('.', 1)[0]}"
 
   transcribe = boto3.client('transcribe', region_name='ap-southeast-1')
   status = transcribe.get_transcription_job(TranscriptionJobName=job_name)
