@@ -10,7 +10,7 @@ from werkzeug.utils import secure_filename
 
 BUCKET_NAME = 'aws-hackdays-samaritan-uploads'
 UPLOAD_FOLDER = './uploads'
-ALLOWED_EXTENSIONS = set(['wav'])
+ALLOWED_EXTENSIONS = set(['wav', 'mp3'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -87,7 +87,7 @@ def transcribe_file():
   transcribe.start_transcription_job(
     TranscriptionJobName=job_name,
     Media={'MediaFileUri': job_uri},
-    MediaFormat='wav',
+    MediaFormat='mp3',
     LanguageCode='en-US',
     OutputBucketName=BUCKET_NAME
   )
