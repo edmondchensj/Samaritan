@@ -26,40 +26,7 @@ def hello():
     return 'Hello, World!'
 
 
-@app.route('/upload', methods=['GET', 'POST'])
-def upload_file():
-  if request.method == 'POST':
-    # check if the post request has the file part
-    print('here')
-    if 'file' not in request.files:
-      # flash('No file part')
-      print('here2')
-      return redirect(request.url)
-    file = request.files['file']
-    print('here3')
-    # if user does not select file, browser also
-    # submit a empty part without filename
-    if file.filename == '':
-      print('here4')
-      # flash('No selected file')
-      return redirect(request.url)
-    print('here5')
-    print(file.filename)
-    print(file)
-    print('here5b')
-    if file and allowed_file(file.filename):
-      print('here6')
-      filename = secure_filename(file.filename)
-
-      full_filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-      file.save(full_filename)
-
-      s3 = boto3.resource('s3')
-      data = open(full_filename, 'rb')
-      s3.Bucket(BUCKET_NAME).put_object(Key=filename, Body=data)
-      print('here7')
-
-      return f'File {file.filename} uploaded!'
+def upload_file_get():
   return '''
   <!doctype html>
   <title>Upload new File</title>
@@ -70,10 +37,59 @@ def upload_file():
   </form>
   '''
 
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+  if request.method == 'GET':
+    return upload_file_get()
 
-# @app.route('/transcribe', methods=['GET'])
-# def transcribe_file():
-#   transcribe = boto3.client('transcribe')
+  # check if the post request has the file part
+  if 'file' not in request.files:
+    print('No file in request.files')
+    return redirect(request.url)
+
+  file = request.files['file']
+  # if user does not select file, browser also submit a empty part without filename
+  if file.filename == '':
+    print('Empty file name')
+    return redirect(request.url)
+
+  print(f'Checking file ({file}) and filename ({file.filename})')
+  if file and allowed_file(file.filename):
+    filename = secure_filename(file.filename)
+
+    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    file.save(full_filename)
+
+    print(f'Uploading {file.filename} to S3 ..')
+    s3 = boto3.resource('s3')
+    data = open(full_filename, 'rb')
+    s3.Bucket(BUCKET_NAME).put_object(Key=filename, Body=data)
+    print('Upload complete!')
+
+    return f'File {file.filename} uploaded!'
+
+  return redirect(request.url)
+
+
+
+
+@app.route('/transcribe', methods=['GET'])
+def transcribe_file():
+  filename = request.args.get('filename')
+  print(f'Transcribing {filename} ..')
+
+  job_name = f'transcribe_job_{filename}'
+  job_uri = f'https://s3-ap-southeast-1.amazonaws.com/{BUCKET_NAME}/{filename}'
+
+  transcribe = boto3.client('transcribe')
+  transcribe.start_transcription_job(
+    TranscriptionJobName=job_name,
+    Media={'MediaFileUri': job_uri},
+    MediaFormat='wav',
+    LanguageCode='en-US',
+    OutputBucketName=BUCKET_NAME
+  )
+
 
 
 
