@@ -46,6 +46,7 @@ def upload_file():
     print('here5')
     print(file.filename)
     print(file)
+    print('here5b')
     if file and allowed_file(file.filename):
       print('here6')
       filename = secure_filename(file.filename)
