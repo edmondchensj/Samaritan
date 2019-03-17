@@ -100,8 +100,9 @@ def transcribe_progress():
   job_name = f'transcribe_job_{filename}'
 
   transcribe = boto3.client('transcribe', region_name='ap-southeast-1')
-  status = transcribe.get_transcription_job(TranscriptionJobName=job_name)
-  return status['TranscriptionJob']['TranscriptionJobStatus']
+  return transcribe.get_transcription_job(TranscriptionJobName=job_name)
+
+
 
 
 
