@@ -81,7 +81,7 @@ def transcribe_file():
   job_name = f'transcribe_job_{filename}'
   job_uri = f'https://s3-ap-southeast-1.amazonaws.com/{BUCKET_NAME}/{filename}'
 
-  transcribe = boto3.client('transcribe')
+  transcribe = boto3.client('transcribe', region_name='ap-southeast-1')
   transcribe.start_transcription_job(
     TranscriptionJobName=job_name,
     Media={'MediaFileUri': job_uri},
