@@ -1,6 +1,9 @@
 import os
+import time
 import boto3
+
 from flask import Flask, request, redirect, url_for
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 BUCKET_NAME = 'aws-hackdays-samaritan-uploads'
@@ -10,6 +13,7 @@ ALLOWED_EXTENSIONS = set(['wav'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+CORS(app)
 
 
 def allowed_file(filename):
@@ -55,4 +59,14 @@ def upload_file():
        <input type=submit value=Upload>
   </form>
   '''
+
+
+# @app.route('/transcribe', methods=['GET'])
+# def transcribe_file():
+#   transcribe = boto3.client('transcribe')
+
+
+
+
+
 
