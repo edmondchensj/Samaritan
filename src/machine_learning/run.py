@@ -9,7 +9,7 @@ from transcribe import transcribe
 from comprehend import parse_transcription
 from utils import get_transcription, upload_to_S3
 
-def run_machine_learning(filename, bucket, save_output_to_s3=True, verbose=True):
+def run_machine_learning(filename, bucket, save_output_to_S3=True, verbose=True):
     '''Run AWS machine learning services (Transcribe & Comprehend) on a given audiofile.
 
     Required arguments
@@ -36,14 +36,14 @@ def run_machine_learning(filename, bucket, save_output_to_s3=True, verbose=True)
 
     output = parse_transcription(transcript, filename, verbose)
 
-    if save_output_to_s3:
+    if save_output_to_S3:
         upload_to_S3(output, filename, 'json', bucket, verbose)
     
     return output
 
 def main():
     # Settings
-    filename = 'anal_verge' # sample audiofile
+    filename = 'removing_large_polyps' # sample audiofile
     bucket = 'team-arpc'
 
     output = run_machine_learning(filename, bucket)
