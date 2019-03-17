@@ -30,16 +30,22 @@ def hello():
 def upload_file():
   if request.method == 'POST':
     # check if the post request has the file part
+    print('here')
     if 'file' not in request.files:
-      flash('No file part')
+      # flash('No file part')
+      print('here2')
       return redirect(request.url)
     file = request.files['file']
+    print('here3')
     # if user does not select file, browser also
     # submit a empty part without filename
     if file.filename == '':
-      flash('No selected file')
+      print('here4')
+      # flash('No selected file')
       return redirect(request.url)
+    print('here5')
     if file and allowed_file(file.filename):
+      print('here6')
       filename = secure_filename(file.filename)
 
       full_filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -48,6 +54,7 @@ def upload_file():
       s3 = boto3.resource('s3')
       data = open(full_filename, 'rb')
       s3.Bucket(BUCKET_NAME).put_object(Key=filename, Body=data)
+      print('here7')
 
       return f'File {file.filename} uploaded!'
   return '''
