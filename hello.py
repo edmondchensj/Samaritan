@@ -1,6 +1,7 @@
 import os
 import time
 import boto3
+import json
 
 from flask import Flask, request, redirect, url_for
 from flask_cors import CORS
@@ -100,7 +101,9 @@ def transcribe_progress():
   job_name = f'transcribe_job_{filename}'
 
   transcribe = boto3.client('transcribe', region_name='ap-southeast-1')
-  return transcribe.get_transcription_job(TranscriptionJobName=job_name)
+  status = transcribe.get_transcription_job(TranscriptionJobName=job_name)
+  print(status['TranscriptionJob']['TranscriptionJobStatus'])
+  return json.dumps(status)
 
 
 
