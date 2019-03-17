@@ -80,7 +80,7 @@ def transcribe_file():
   filename = request.args.get('filename')
   print(f'Transcribing {filename} ..')
 
-  job_name = f'transcribe_job_{filename}'
+  job_name = f'transcribe_job_{filename.rsplit('.', 1)[0]}'
   job_uri = f'https://s3-ap-southeast-1.amazonaws.com/{BUCKET_NAME}/{filename}'
 
   transcribe = boto3.client('transcribe', region_name='ap-southeast-1')
@@ -99,7 +99,7 @@ def transcribe_file():
 def transcribe_progress():
   filename = request.args.get('filename')
   print(f'Checking transcription progress for {filename} ..')
-  job_name = f'transcribe_job_{filename}'
+  job_name = f'transcribe_job_{filename.rsplit('.', 1)[0]}'
 
   transcribe = boto3.client('transcribe', region_name='ap-southeast-1')
   status = transcribe.get_transcription_job(TranscriptionJobName=job_name)
@@ -180,12 +180,12 @@ def comprehend():
   s3 = boto3.client('s3')
   obj = s3.get_object(Bucket=BUCKET_NAME, Key=filename)
   transcribed_obj = obj['Body'].read().decode('utf-8')
-  print(transcribed_obj['results'])
-  print(transcribed_obj['results']['transcripts'])
+  j = json.loads(transcribed_obj)
+  print(j['results'])
+  print(j['results']['transcripts'])
   # transcript = transcribed_obj['results']['transcripts'][0]['transcript']
   # print(transcript)
 
-  j = json.loads(transcribed_obj)
   return jsonify(results=j)
 
   # s3 = boto3.resource('s3')
