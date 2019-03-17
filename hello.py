@@ -44,6 +44,8 @@ def upload_file():
       # flash('No selected file')
       return redirect(request.url)
     print('here5')
+    print(file.filename)
+    print(file)
     if file and allowed_file(file.filename):
       print('here6')
       filename = secure_filename(file.filename)
