@@ -172,7 +172,7 @@ def parse_transcription(transcript, filename, verbose=False, save_output_locally
 
   return output
 
-@app.route('comprehend', methods=['GET'])
+@app.route('/comprehend', methods=['GET'])
 def comprehend():
   filename = request.args.get('filename')
   print(f'Requesting comprehension for {filename} ..')
