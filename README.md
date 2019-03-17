@@ -5,6 +5,7 @@ Doctors often cannot write or type while assessing a patient. Samaritan is a voi
 
 The first version of Samaritan aims at facilitating a specific use-case -- endoscopic examinations. This procedure typically requires the endoscopy surgeon to use both hands, preventing them from recording notes. 
 
+## Overview of Pipeline
 ![Technical Pipeline](tech_pipeline.png)
 
 ## Benefits
