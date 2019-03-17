@@ -177,9 +177,14 @@ def comprehend():
   filename = request.args.get('filename')
   print(f'Requesting comprehension for {filename} ..')
 
-  s3 = boto3.resource('s3')
-  response = s3.Bucket(BUCKET_NAME).get_object(Key=filename)
-  return jsonify(results=response)
+  s3 = boto3.client('s3')
+  obj = s3.get_object(Bucket=BUCKET_NAME, Key=filename)
+  j = json.loads(obj['Body'].read().decode('utf-8'))
+  return jsonify(results=j)
+
+  # s3 = boto3.resource('s3')
+  # response = s3.Bucket(BUCKET_NAME).get_object(Key=filename)
+  # return jsonify(results=response)
   # parse_transcription()
 
 
