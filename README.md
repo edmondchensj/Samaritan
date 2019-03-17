@@ -15,7 +15,7 @@ Samaritan has three benefits. It saves time for manual logging of clinical obser
 The system uses a subscription model with a free tier. This model allows doctors to try our system at essentially zero cost. Since Samaritan is deployed as a web application, the only requirement is downloading our microphone-enabled mobile app. 
 
 ## Future Work
-In subsequent iterations, Samaritan aims to facilitate other parts of doctors' workflow. We believe that a voice-controlled assistant has huge potential because medical scribes are increasingly being used for manual documentation tasks. Having an assistant provides numerous benefits for the doctor, such as improved efficiency and better patient interaction. 
+In subsequent iterations, Samaritan aims to facilitate other parts of doctors' workflow. We believe that a voice-controlled assistant has huge potential because medical scribes are already being used for manual documentation tasks. Having an assistant provides numerous benefits for the doctor, such as improved efficiency and better patient interaction. 
 
 ## Acknowledgements & License
 ...
