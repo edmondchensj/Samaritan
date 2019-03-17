@@ -184,7 +184,7 @@ def comprehend():
 
   print(j['results']['transcripts'])
   transcript = j['results']['transcripts'][0]['transcript']
-  output = parse_transcription(transcript)
+  output = parse_transcription(transcript, filename)
   # transcript = transcribed_obj['results']['transcripts'][0]['transcript']
   # print(transcript)
 
