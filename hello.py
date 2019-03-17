@@ -181,12 +181,15 @@ def comprehend():
   obj = s3.get_object(Bucket=BUCKET_NAME, Key=filename)
   transcribed_obj = obj['Body'].read().decode('utf-8')
   j = json.loads(transcribed_obj)
-  print(j['results']['transcripts'][0]['transcript'])
+
+  print(j['results']['transcripts'])
+  transcript = j['results']['transcripts'][0]['transcript']
+  output = parse_transcription(transcript)
   # transcript = transcribed_obj['results']['transcripts'][0]['transcript']
   # print(transcript)
 
 
-  return jsonify(results=j)
+  return jsonify(results=output)
 
   # s3 = boto3.resource('s3')
   # response = s3.Bucket(BUCKET_NAME).get_object(Key=filename)
