@@ -1,15 +1,13 @@
 from __future__ import print_function
 import time
 import boto3
-import argparse
 import json
 from pprint import pprint
-from utils import get_transcription
 
 def _fix_vocab(transcript):
     vocab_bank = {"kaleidoscope": "colonoscope", "Kaleidoscope.": "colonoscope",
               "kalanick": "colonic", "Kalanick": "colonic",
-              "seaCome": "cecum", "sea. Come": "cecum", "sick, um": "cecum",
+              "seaCome": "cecum", "sea. Come": "cecum", "sick, um": "cecum", "sea Come": "cecum",
               "A sending": "ascending",
               "Elio sequel": "ileocecal",
               "Virg": "verge",
@@ -27,10 +25,24 @@ def _parse_comprehend_results(results):
     # Get results
     for entity in results['Entities']:
 
+        # Ignore entities with low confidence
+        if entity['Score'] < 0.5:
+            continue
+
+        # Detect organ site
         if entity['Type'] == 'SYSTEM_ORGAN_SITE':
             organ.add(entity['Text'])
 
-        keywords.add(entity['Text'])
+        # Set keyword
+        keyword = entity['Text']
+
+        # Add negation if appropriate
+        for trait in entity['Traits']:
+            if (trait['Name'] == 'NEGATION') and \
+                (trait['Score'] >= 0.5):
+               keyword = keyword + ' (negative)'
+
+        keywords.add(keyword)
 
     return list(organ), list(keywords)
 

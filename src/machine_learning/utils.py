@@ -1,7 +1,6 @@
 from __future__ import print_function
 import time
 import boto3
-import argparse
 import json 
 
 def get_transcription(filename, bucket, verbose, 

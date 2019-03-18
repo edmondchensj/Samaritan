@@ -1,15 +1,10 @@
 from __future__ import print_function
-import time
-import boto3
-import argparse
-import json
-from pprint import pprint
 
 from transcribe import transcribe
 from comprehend import parse_transcription
 from utils import get_transcription, upload_to_S3
 
-def run_machine_learning(filename, bucket, save_output_to_S3=True, verbose=True):
+def run_machine_learning(filename, bucket, save_output_to_S3=False, verbose=True):
     '''Run AWS machine learning services (Transcribe & Comprehend) on a given audiofile.
 
     Required arguments
@@ -43,7 +38,7 @@ def run_machine_learning(filename, bucket, save_output_to_S3=True, verbose=True)
 
 def main():
     # Settings
-    filename = 'removing_large_polyps' # sample audiofile
+    filename = 'anal_verge' # sample audiofile
     bucket = 'team-arpc'
 
     output = run_machine_learning(filename, bucket)

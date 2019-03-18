@@ -1,7 +1,6 @@
 from __future__ import print_function
 import time
 import boto3
-import argparse
 
 def transcribe(filename, extension, bucket, verbose=False):
     if verbose:
