@@ -1,12 +1,4 @@
-# Samaritan: A Voice-controlled Assistant for Endoscopy Surgeons
+# Samaritan: Voice-controlled Assistant for Endoscopy Surgeons (Backend)
 
-## What is Samaritan? 
-Doctors often cannot write or type while assessing a patient. Samaritan is a voice-controlled assistant that transcribes and organizes clinical observations for doctors. 
-
-The first version of Samaritan aims at facilitating a specific use-case -- endoscopic examinations. This procedure typically requires the endoscopy surgeon to use both hands, preventing them from recording notes. 
-
-## Overview of Pipeline
-![Technical Pipeline](tech_pipeline.png)
-
-## Future Work
-In subsequent iterations, Samaritan aims to facilitate other parts of doctors' workflow. We believe that a voice-controlled assistant has huge potential because medical scribes are already being used for manual documentation tasks. Having an assistant provides numerous benefits for the doctor, such as improved efficiency and better patient interaction.
+## Overview
+The Samaritan Endoscopy Backend works with the [Samaritan UI](https://github.com/TimothySeahGit/samaritan-ui) for use in endoscopic clinical settings. It allows endoscopists to capture screenshots during an endoscopic examination as per their normal workflow, but optionally add on voice recorded notes. The recordings are immediately sent to Amazon Transcribe and Amazon Comprehend Medical for transcription and keyword extraction. The Samaritan UI then generates suitable captions for the screenshots. It is able to detect organ sites, medical conditions, and negation.
